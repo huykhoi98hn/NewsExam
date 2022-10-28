@@ -6,8 +6,9 @@
 //
 
 import Foundation
+import Common
 
-public class HomeCoordinator {
+public class HomeCoordinator: Coordinator {
     var navigationController: UINavigationController
     
     public init(navigationController: UINavigationController) {

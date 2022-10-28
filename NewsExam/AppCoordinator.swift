@@ -7,8 +7,9 @@
 
 import Foundation
 import Home
+import Common
 
-class AppCoordinator {
+class AppCoordinator: Coordinator {
     private let window: UIWindow
     private var homeCoordinator: HomeCoordinator?
     private let navigationController: UINavigationController
