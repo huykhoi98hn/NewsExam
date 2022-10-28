@@ -24,7 +24,7 @@ class NewsTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = Fonts.medium(size: 17)
-        label.textColor = Colors.brightBlue
+        label.textColor = Colors.metallicSeaweed
         label.textAlignment = .center
         label.numberOfLines = 1
         label.setContentHuggingPriority(.required, for: .vertical)

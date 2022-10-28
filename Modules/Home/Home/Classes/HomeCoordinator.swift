@@ -7,9 +7,11 @@
 
 import Foundation
 import Common
+import RxSwift
 
 public class HomeCoordinator: Coordinator {
     var navigationController: UINavigationController
+    var disposeBag = DisposeBag()
     
     public init(navigationController: UINavigationController) {
         self.navigationController = navigationController
@@ -19,6 +21,16 @@ public class HomeCoordinator: Coordinator {
         let newsViewController = NewsViewController()
         let viewModel = NewsViewModel()
         newsViewController.setViewModel(viewModel)
+        viewModel.output.onNextDetail.subscribe(onNext: { [weak self] news in
+            self?.pushDetailNews(news)
+        }).disposed(by: disposeBag)
         navigationController.pushViewController(newsViewController, animated: false)
+    }
+    
+    private func pushDetailNews(_ news: News) {
+        let detailViewControlelr = NewsDetailViewController()
+        let viewModel = NewsDetailViewModel(news: news)
+        detailViewControlelr.setViewModel(viewModel)
+        navigationController.pushViewController(detailViewControlelr, animated: true)
     }
 }
