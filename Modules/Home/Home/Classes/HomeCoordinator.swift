@@ -28,9 +28,9 @@ public class HomeCoordinator: Coordinator {
     }
     
     private func pushDetailNews(_ news: News) {
-        let detailViewControlelr = NewsDetailViewController()
+        let newsDetailViewController = NewsDetailViewController()
         let viewModel = NewsDetailViewModel(news: news)
-        detailViewControlelr.setViewModel(viewModel)
-        navigationController.pushViewController(detailViewControlelr, animated: true)
+        newsDetailViewController.setViewModel(viewModel)
+        navigationController.pushViewController(newsDetailViewController, animated: true)
     }
 }
