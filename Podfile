@@ -4,6 +4,7 @@ project 'NewsExam.xcodeproj'
 def development_pod
   pod 'Home', :path => 'Modules/Home'
   pod 'Common', :path => 'Modules/Common'
+  pod 'Network', :path => 'Modules/Network'
 end
 
 target 'NewsExam' do
