@@ -20,6 +20,7 @@ class NewsDetailViewController: UIViewController {
         scrollView.alwaysBounceHorizontal = false
         scrollView.isScrollEnabled = true
         scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.delegate = self
         return scrollView
     }()
     
@@ -126,4 +127,18 @@ extension NewsDetailViewController: BaseViewController {
     }
     
     func initData() {}
+}
+
+extension NewsDetailViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        if offsetY < 0 {
+            var transform = CATransform3DTranslate(CATransform3DIdentity, 0, offsetY / 2, 0)
+            let scaleFactor = 1 - (offsetY / imageView.bounds.height)
+            transform = CATransform3DScale(transform, scaleFactor, scaleFactor, 1)
+            imageView.layer.transform = transform
+        } else {
+            imageView.layer.transform = CATransform3DIdentity
+        }
+    }
 }

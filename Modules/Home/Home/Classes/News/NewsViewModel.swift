@@ -9,6 +9,7 @@ import Foundation
 import RxSwift
 import Network
 import Common
+import Kingfisher
 
 public class NewsViewModel: BaseViewModel {
     private let searchText = PublishSubject<String?>()
@@ -20,6 +21,7 @@ public class NewsViewModel: BaseViewModel {
     private let showLoading = PublishSubject<Bool>()
     private let newsArray = PublishSubject<([News], Int)>()
     private let onNextDetail = PublishSubject<News>()
+    private let preloadImageUrl = PublishSubject<[URL]>()
     private let pageSize: Int = 20
     private let disposeBag = DisposeBag()
     
@@ -28,6 +30,7 @@ public class NewsViewModel: BaseViewModel {
         var loadmore: AnyObserver<Void>
         var refresh: AnyObserver<Void>
         var onNextDetail: AnyObserver<News>
+        var preloadImageUrl: AnyObserver<[URL]>
     }
     
     public struct Output {
@@ -44,7 +47,8 @@ public class NewsViewModel: BaseViewModel {
             searchText: searchText.asObserver(),
             loadmore: loadmore.asObserver(),
             refresh: refresh.asObserver(),
-            onNextDetail: onNextDetail.asObserver()
+            onNextDetail: onNextDetail.asObserver(),
+            preloadImageUrl: preloadImageUrl.asObserver()
         )
         output = Output(
             newsArray: newsArray.asObservable(),
@@ -90,6 +94,10 @@ public class NewsViewModel: BaseViewModel {
             self.canLoadmore.onNext(true)
             self.isLoadmore.onNext(false)
             self.page.onNext(1)
+        }).disposed(by: disposeBag)
+        
+        preloadImageUrl.subscribe(onNext: { urls in
+            ImagePrefetcher(resources: urls).start()
         }).disposed(by: disposeBag)
     }
     

@@ -9,7 +9,6 @@ import UIKit
 import Common
 import SnapKit
 import RxSwift
-import Kingfisher
 import SkeletonView
 
 class NewsViewController: UIViewController {
@@ -24,6 +23,7 @@ class NewsViewController: UIViewController {
         tableView.dataSource = self
         tableView.separatorStyle = .none
         tableView.isSkeletonable = true
+        tableView.prefetchDataSource = self
         return tableView
     }()
     
@@ -35,6 +35,7 @@ class NewsViewController: UIViewController {
         searchBar.searchTextField.textColor = Colors.black
         searchBar.delegate = self
         searchBar.showsCancelButton = true
+        searchBar.backgroundImage = UIImage()
         return searchBar
     }()
     
@@ -52,7 +53,23 @@ class NewsViewController: UIViewController {
         initData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShow(notification:)),
+                                               name: UIWindow.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHide(notification:)),
+                                               name: UIWindow.keyboardWillHideNotification, object: nil)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     @objc private func refreshData() {
+        UIView.animate(withDuration: 0.3, delay: 0, animations: {
+            self.refreshControl.endRefreshing()
+        }, completion: nil)
         viewModel.input.refresh.onNext(())
     }
 }
@@ -72,10 +89,12 @@ extension NewsViewController: BaseViewController {
                     }
                     if page == 1 {
                         self.newsArray = newsArray
+                        self.tableView.reloadData()
                     } else {
+                        let oldCount = self.newsArray.count
                         self.newsArray.append(contentsOf: newsArray)
+                        self.tableView.insertRows(at: (oldCount..<self.newsArray.count).map({ IndexPath(row: $0, section: 0) }), with: .none)
                     }
-                    self.tableView.reloadData()
                     if self.newsArray.isEmpty {
                         self.tableView.backgroundView = NewsEmptyView()
                     } else {
@@ -135,6 +154,40 @@ extension NewsViewController: BaseViewController {
     public func initData() {
         viewModel.input.searchText.onNext(nil)
     }
+    
+    @objc private func keyboardShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            tableView.snp.updateConstraints { make in
+                make.bottom.equalTo(-keyboardSize.size.height)
+            }
+            guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+                  let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else {
+                return
+            }
+            UIView.animate(withDuration: duration, delay: 0.0, options: UIView.AnimationOptions(rawValue: curve), animations: { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+        }
+    }
+    
+    @objc private func keyboardHide(notification: NSNotification) {
+        tableView.snp.updateConstraints { make in
+            make.bottom.equalToSuperview()
+        }
+        guard let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+              let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else {
+            return
+        }
+        UIView.animate(withDuration: duration, delay: 0.0, options: UIView.AnimationOptions(rawValue: curve), animations: { [weak self] in
+            guard let self = self else {
+                return
+            }
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
 }
 
 extension NewsViewController: SkeletonTableViewDataSource {
@@ -187,3 +240,9 @@ extension NewsViewController: UISearchBarDelegate {
     }
 }
 
+extension NewsViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        let urls = indexPaths.compactMap({ URL(string: newsArray[safe: $0.row]?.urlToImage ?? "") })
+        viewModel.input.preloadImageUrl.onNext(urls)
+    }
+}

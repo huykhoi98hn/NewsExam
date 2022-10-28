@@ -74,6 +74,16 @@ class NewsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+        guard selected else {
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            self.setSelected(false, animated: true)
+        }
+    }
+    
     private func setupViews() {
         isSkeletonable = true
         contentView.isSkeletonable = true
