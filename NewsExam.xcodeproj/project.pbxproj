@@ -11,6 +11,7 @@
 		68F8C722290B6E73004AEFA2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F8C721290B6E73004AEFA2 /* AppDelegate.swift */; };
 		68F8C72B290B6E74004AEFA2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 68F8C72A290B6E74004AEFA2 /* Assets.xcassets */; };
 		68F8C72E290B6E74004AEFA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 68F8C72C290B6E74004AEFA2 /* LaunchScreen.storyboard */; };
+		68F8C740290B76BB004AEFA2 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F8C73F290B76BB004AEFA2 /* AppCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		68F8C72A290B6E74004AEFA2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		68F8C72D290B6E74004AEFA2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		68F8C72F290B6E74004AEFA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68F8C73F290B76BB004AEFA2 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		69173675CB233A160F926FF8 /* Pods-NewsExam.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsExam.release.xcconfig"; path = "Target Support Files/Pods-NewsExam/Pods-NewsExam.release.xcconfig"; sourceTree = "<group>"; };
 		9130139448A0994FA774D5E5 /* Pods_NewsExam.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_NewsExam.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A40E0761F9484B5381DC98F2 /* Pods-NewsExam.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-NewsExam.debug.xcconfig"; path = "Target Support Files/Pods-NewsExam/Pods-NewsExam.debug.xcconfig"; sourceTree = "<group>"; };
@@ -70,6 +72,7 @@
 				68F8C72A290B6E74004AEFA2 /* Assets.xcassets */,
 				68F8C72C290B6E74004AEFA2 /* LaunchScreen.storyboard */,
 				68F8C72F290B6E74004AEFA2 /* Info.plist */,
+				68F8C73F290B76BB004AEFA2 /* AppCoordinator.swift */,
 			);
 			path = NewsExam;
 			sourceTree = "<group>";
@@ -93,6 +96,7 @@
 				68F8C71A290B6E73004AEFA2 /* Sources */,
 				68F8C71B290B6E73004AEFA2 /* Frameworks */,
 				68F8C71C290B6E73004AEFA2 /* Resources */,
+				1D57F9D8C47183AB4306C849 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -149,6 +153,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		1D57F9D8C47183AB4306C849 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewsExam/Pods-NewsExam-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-NewsExam/Pods-NewsExam-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-NewsExam/Pods-NewsExam-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		D446ED0E7783D3D376B56E31 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -178,6 +199,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68F8C740290B76BB004AEFA2 /* AppCoordinator.swift in Sources */,
 				68F8C722290B6E73004AEFA2 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
