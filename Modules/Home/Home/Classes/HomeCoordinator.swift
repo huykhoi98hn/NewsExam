@@ -17,6 +17,8 @@ public class HomeCoordinator: Coordinator {
     
     public func start() {
         let newsViewController = NewsViewController()
+        let viewModel = NewsViewModel()
+        newsViewController.setViewModel(viewModel)
         navigationController.pushViewController(newsViewController, animated: false)
     }
 }

@@ -31,4 +31,10 @@ TODO: Add long description of the pod here.
   s.source_files = 'Home/Classes/**/*'
   
   s.dependency 'Common'
+  s.dependency 'RxSwift', '6.5.0'
+  s.dependency 'RxCocoa', '6.5.0'
+  s.dependency 'Network'
+  s.dependency 'SnapKit', '5.6.0'
+  s.dependency 'Kingfisher', '~> 7.0'
+  s.dependency 'SkeletonView', '~> 1.0'
 end
